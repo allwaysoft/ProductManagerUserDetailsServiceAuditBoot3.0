@@ -7,11 +7,12 @@
         <meta name="robots" content="noindex, nofollow">
         <meta content="" name="description">
         <meta content="" name="keywords">
-        <link href="/assets/img/favicon.png" rel="icon">
+        <link rel="icon" th:href="@{/assets/img/favicon.png}"  />
         <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
         <link rel="stylesheet" type="text/css" th:href="@{/webjars/font-awesome/css/all.min.css}"/>
         <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap-icons/font/bootstrap-icons.css}"/>
-        <link href="/assets/css/style.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" th:href="@{/assets/css/style.css}" />
+        <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
     </head>
     <body>
         <header id="header" class="header fixed-top d-flex align-items-center" th:replace="fragments/header :: header">
@@ -100,8 +101,8 @@
         <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
                 class="bi bi-arrow-up-short"></i></a>
         <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
-        <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
-        <script src="/assets/js/main.js"></script>
+        <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+        <script type="text/javascript" th:src="@{/assets/js/main.js}" ></script>
 
     </body>
 </html>
