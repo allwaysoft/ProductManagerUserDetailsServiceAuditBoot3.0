@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <title>Dashboard - Admin Bootstrap Template</title>
+        <meta name="robots" content="noindex, nofollow">
+        <meta content="" name="description">
+        <meta content="" name="keywords">
+        <link href="/assets/img/favicon.png" rel="icon">
+        <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/assets/css/bootstrap-icons.css" rel="stylesheet">
+        <link href="/assets/css/style.css" rel="stylesheet">
+    </head>
+    <body>
+        <header id="header" class="header fixed-top d-flex align-items-center" th:replace="fragments/header :: header">
+        </header>
+        <aside id="sidebar" class="sidebar" th:replace="fragments/sidebar :: sidebar">
+        </aside>
+        <main id="main" class="main">
+            <div class="pagetitle">
+                <nav>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">主页</a></li>
+                        <li class="breadcrumb-item active">用户管理</li>
+                    </ol>
+                </nav>
+            </div>
+            <section class="section dashboard">
+                <div class="container-xl">
+                    <div class="table-responsive">
+                        <div class="table-wrapper">
+                            <div class="table-title">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <h2><b>账号信息</b></h2>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label class=" control-label">User ID</label> <label
+                                        class=" control-label" th:utext="${user.id}"></label>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class=" control-label">User Name:</label> <label
+                                        class=" control-label" th:utext="${user.username}"></label>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class=" control-label">Email:</label> <label
+                                        class=" control-label" th:utext="${user.email}"></label>
+                                </div>
+                                <div class="form-group">
+                                    <label class=" control-label">Name:</label> <label
+                                        class=" control-label" th:utext="${user.name}"></label>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class=" control-label">Enabled:</label> <label
+                                        class=" control-label" th:utext="${user.enabled}"></label>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class=" control-label">Home page:</label> <label
+                                        class=" control-label" th:utext="${user.homepage}"></label>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class=" control-label">Roles:</label> <label
+                                        class=" control-label" th:utext="${user.roles}"></label>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class=" control-label">Permissions:</label> <label
+                                        class=" control-label" sec:authentication="principal.authorities"></label>
+                                </div>
+                                <br />
+                                <a th:href="${'/change/password'}" > 更改密码</a> <br /> <br />
+                            </div>
+
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <footer id="footer" class="footer" th:replace="fragments/footer :: footer">
+            <div class="copyright"> &copy; Copyright <strong><span>Compnay Name</span></strong>. All Rights Reserved</div>
+            <div class="credits"> with love <a href="https://freeetemplates.com/">FreeeTemplates</a></div>
+        </footer>
+        <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+        <script src="/assets/js/apexcharts.min.js"></script>
+        <script src="/assets/js/bootstrap.bundle.min.js"></script>
+        <script src="/assets/js/chart.min.js"></script>
+        <script src="/assets/js/echarts.min.js"></script>
+        <script src="/assets/js/quill.min.js"></script>
+        <script src="/assets/js/simple-datatables.js"></script>
+        <script src="/assets/js/tinymce.min.js"></script>
+        <script src="/assets/js/validate.js"></script>
+        <script src="/assets/js/main.js"></script>
+
+    </body>
+</html>

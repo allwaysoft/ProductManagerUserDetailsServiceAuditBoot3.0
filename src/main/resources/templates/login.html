@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Bootstrap 5 Sign In Form with Image Example</title>
+        <link href="/assets/img/favicon.png" rel="icon">
+        <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+        <link rel="stylesheet" type="text/css" th:href="@{/webjars/font-awesome/css/all.min.css}"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap-icons/font/bootstrap-icons.css}"/>
+        <link href="/assets/css/style.css" rel="stylesheet">
+    </head>
+
+    <body>
+
+        <form th:action="@{/login}" method="post">
+            <div class="container-fluid vh-100" style="margin-top:50px">
+                <div class="" style="margin-top:50px">
+                    <div class="rounded d-flex justify-content-center">
+                        <div class=" col-md-4 col-sm-12 shadow-lg p-5 bg-light">
+                            <div th:if="${param.error}">
+                                <p class="text-danger">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</p>
+                            </div>
+
+                            <div th:if="${param.logout}">
+                                <p class="text-warning">You have been logged out.</p>
+                            </div>
+                            <div class="text-center">
+                                <h3 class="text-primary">请登录</h3>
+                            </div>
+                            <div class="p-4">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text bg-secondary"><i
+                                            class="bi bi-person-fill text-white"></i></span>
+                                    <input id="username" type="text" name="username" required class="form-control"
+                                           placeholder="用户名">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text bg-secondary"><i
+                                            class="bi bi-key-fill text-white"></i></span>
+                                    <input id="password" type="password" name="password" required class="form-control"
+                                           placeholder="密码">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text bg-secondary"><i
+                                            class="bi bi-lock-fill text-white"></i></span>
+                                    <input type="text" name="kaptcha" class="form-control" placeholder="输入下图中的校验码">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text bg-secondary"><i
+                                            class="bi bi-image-fill text-white"></i></span>
+                                    <img alt="Click the picture to refresh!" class="pointer" th:src="@{/captcha_image}"
+                                         onclick="this.src = '/captcha_image?d=' + new Date() * 1">
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary px-4 float-end mt-4">登录</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </body>
+
+</html>

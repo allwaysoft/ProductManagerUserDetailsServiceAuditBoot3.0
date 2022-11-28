@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <title>Dashboard - Admin Bootstrap Template</title>
+        <meta name="robots" content="noindex, nofollow">
+        <meta content="" name="description">
+        <meta content="" name="keywords">
+        <link href="/assets/img/favicon.png" rel="icon">
+        <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/assets/css/bootstrap-icons.css" rel="stylesheet">
+        <link href="/assets/css/style.css" rel="stylesheet">
+    </head>
+    <body>
+
+
+        <aside id="sidebar" class="sidebar" th:fragment="sidebar">
+            <ul class="sidebar-nav" id="sidebar-nav">
+                <li class="nav-item"><a class="nav-link " href="index.html"> <i class="bi bi-grid"></i> <span>Dashboard</span>
+                    </a></li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#"> <i
+                            class="bi bi-menu-button-wide"></i><span>系统管理</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li sec:authorize="hasAuthority('user')"><a th:href="@{/user}"><i
+                                    class="bi bi-circle"></i><span>用户管理</span> </a></li>
+                        <li sec:authorize="hasAuthority('role')"><a th:href="@{/role}"><i
+                                    class="bi bi-circle"></i><span>角色管理</span> </a></li>
+                        <li sec:authorize="hasAuthority('permission')"><a th:href="@{/permission}"><i
+                                    class="bi bi-circle"></i><span>权限管理</span> </a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#loginlog-nav" data-bs-toggle="collapse" href="#"> <i
+                            class="bi bi-journal-text"></i><span>系统日志</span><i class="bi bi-chevron-down ms-auto"></i> </a>
+                    <ul id="loginlog-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li sec:authorize="hasAuthority('loginlog')"><a th:href="@{/loginlog}"><i
+                                    class="bi bi-circle"></i><span>登录日志</span> </a></li>
+
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#revision-nav" data-bs-toggle="collapse" href="#"> <i
+                            class="bi bi-journal-text"></i><span>数据审计</span><i class="bi bi-chevron-down ms-auto"></i> </a>
+                    <ul id="revision-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li sec:authorize="hasAuthority('revision_user')"><a th:href="@{/revision/user}"><i
+                                    class="bi bi-circle"></i><span>用户审计</span> </a></li>
+
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#"> <i
+                            class="bi bi-journal-text"></i><span>业务管理</span><i class="bi bi-chevron-down ms-auto"></i> </a>
+                    <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                        <li sec:authorize="hasAuthority('product')"><a th:href="@{/product}"><i class="bi bi-circle"></i><span>产品管理</span>
+                            </a></li>
+                        <li sec:authorize="hasAuthority('tutorials')"><a th:href="@{/tutorials}"><i class="bi bi-circle"></i><span>教程管理</span>
+                            </a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-heading">Pages</li>
+                <li class="nav-item"><a class="nav-link collapsed" href="users-profile.html"> <i class="bi bi-person"></i>
+                        <span>Profile</span> </a></li>
+                <li class="nav-item"><a class="nav-link collapsed" href="pages-faq.html"> <i class="bi bi-question-circle"></i>
+                        <span>F.A.Q</span> </a></li>
+                <li class="nav-item"><a class="nav-link collapsed" href="pages-contact.html"> <i class="bi bi-envelope"></i>
+                        <span>Contact</span> </a></li>
+                <li class="nav-item"><a class="nav-link collapsed" href="pages-register.html"> <i class="bi bi-card-list"></i>
+                        <span>Register</span> </a></li>
+                <li class="nav-item"><a class="nav-link collapsed" href="pages-login.html"> <i
+                            class="bi bi-box-arrow-in-right"></i> <span>Login</span> </a></li>
+                <li class="nav-item"><a class="nav-link collapsed" href="pages-error-404.html"> <i
+                            class="bi bi-dash-circle"></i> <span>Error 404</span> </a></li>
+                <li class="nav-item"><a class="nav-link collapsed" href="pages-blank.html"> <i class="bi bi-file-earmark"></i>
+                        <span>Blank</span> </a></li>
+            </ul>
+        </aside>
+    </body>
+</html>
