@@ -13,7 +13,7 @@ public class UserRevisionListener implements RevisionListener {
             org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             username = Optional.of(principal.getUsername()).orElse(null);
         } else {
-            username = "anonymous";
+            username = "unauthenticated";
         }
         UserRevEntity exampleRevEntity = (UserRevEntity) revisionEntity;
 

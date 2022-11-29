@@ -21,13 +21,19 @@ public class UserLoginService {
 //    private static final long LOCK_TIME_DURATION = 24 * 60 * 60 * 1000; // 24 hours
     private static final long LOCK_TIME_DURATION = 5 * 60 * 1000; // 5 mins
 
+//    public void increaseFailedAttempts(User user) {
+//        int newFailAttempts = user.getFailedAttempt() + 1;
+//        userRepository.updateFailedAttempts(newFailAttempts, user.getUsername());
+//    }
+//
     public void increaseFailedAttempts(User user) {
-        int newFailAttempts = user.getFailedAttempt() + 1;
-        userRepository.updateFailedAttempts(newFailAttempts, user.getUsername());
+        user.setFailedAttempt(user.getFailedAttempt() + 1);
+        userRepository.save(user);
     }
 
-    public void resetFailedAttempts(String username) {
-        userRepository.updateFailedAttempts(0, username);
+    public void resetFailedAttempts(User user) {
+        user.setFailedAttempt(0);
+        userRepository.save(user);
     }
 
     public void lock(User user) {

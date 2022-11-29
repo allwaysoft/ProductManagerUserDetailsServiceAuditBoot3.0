@@ -25,13 +25,6 @@ public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHan
 
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception)
             throws IOException, ServletException {
-        if (exception instanceof CredentialsExpiredException) {
-            // 保存异常信息到会话属性，供页面显示
-            saveException(request, exception);
-            String userName = request.getParameter("username");
-            // 跳转到修改密码页面
-            response.sendRedirect("/changepassword?error&username=" + userName);
-        }
 
         String username = request.getParameter("username");
         User user = userRepository.getByUsername(username);

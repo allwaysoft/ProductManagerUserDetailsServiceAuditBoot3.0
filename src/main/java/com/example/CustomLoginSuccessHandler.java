@@ -31,7 +31,7 @@ public class CustomLoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         String username = userDetails.getUsername();
         User user = userRepository.getByUsername(username);
         if (user.getFailedAttempt() > 0) {
-            userLoginService.resetFailedAttempts(user.getUsername());
+            userLoginService.resetFailedAttempts(user);
         }
         System.out.println(request.getRemoteAddr());
         System.out.println(request.getSession().getId());

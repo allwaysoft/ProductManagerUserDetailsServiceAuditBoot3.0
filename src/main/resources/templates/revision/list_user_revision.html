@@ -46,6 +46,44 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="my-3 ">
+
+                                    <div class="row d-flex flex-row">
+                                        <form th:action="@{/revision/user}" id="searchForm" >
+                                            <div class="row">
+                                                <div class="col-sm-8">
+                                                    <div class="col-md-12 mt-2">
+                                                        <div class="search">
+                                                            <i class="fa fa-search"></i>
+                                                            <input id="keyword" type="search" name="keyword" th:value="${keyword}" required class="form-control"
+                                                                   placeholder="Enter keyword">
+                                                            <button type="submit" class="btn btn-secondary">搜索</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="col-md-12 input-group mt-2">
+                                                        <div class="input-group-prepend">
+                                                            <label class="input-group-text" for="pageSize">每页显示行数:</label>
+                                                        </div>
+                                                        <select form="searchForm" name="size" th:value="${pageSize}" onchange="changePageSize()" class="size-select"
+                                                                id="pageSize">
+                                                            <option th:each="s : ${ {10, 25, 50} }" th:value="${s}" th:text="${s}" th:selected="${s == pageSize}"></option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-1">
+                                                    <div class="col-md-12 mt-2">
+                                                        <button id="btnClear" class="btn btn-info">重置</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                </div>
+
                                 <table id="revision-table" class="table table-striped table-hover">
                                     <thead>
                                         <tr>
@@ -98,6 +136,63 @@
                                 <script>
                                     var table = new Tabulator("#revision-table", {});
                                 </script>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div th:if="${totalPages > 0}">
+                                            总计<span th:text="${totalItems}">99</span>行，当前显示<span th:text="(${currentPage} - 1)*${pageSize} +1">1</span> -
+                                            <span th:text="(${currentPage} - 1)*${pageSize} +${numberOfElements}">5</span>行&nbsp; &nbsp;总计<span th:text="${totalPages}">99</span>页
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <nav aria-label="Pagination" th:if="${totalPages > 0}">
+                                            <ul class="pagination justify-content-center">
+                                                <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
+                                                    <a class="page-link"
+                                                       th:href="@{'/revision/user?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''} + 'page=' +'1'+ '&size=' + ${pageSize}}"
+                                                       title="First Page" rel="First Page">
+                                                        最前页
+                                                    </a>
+                                                </li>
+                                                <li class="page-item font-weight-bold" th:classappend="${currentPage == 1} ? 'disabled'">
+                                                    <a class="page-link"
+                                                       th:href="@{'/revision/user?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''} + 'page=' + ${currentPage - 1} + '&size=' + ${pageSize}}"
+                                                       title="Previous Page" rel="Previous Page">
+                                                        前一页
+                                                    </a>
+                                                </li>
+                                                <li class="page-item disabled" th:if="${currentPage - 2 > 1}">
+                                                    <a class="page-link" href="#">...</a>
+                                                </li>
+                                                <li class="page-item" th:classappend="${page == currentPage} ? 'active'"
+                                                    th:each="page : ${#numbers.sequence(currentPage > 2 ? currentPage - 2 : 1, currentPage + 2 < totalPages ? currentPage + 2 : totalPages)}">
+                                                    <a class="page-link"
+                                                       th:href="@{'/revision/user?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''} + 'page=' + ${page} + '&size=' + ${pageSize}}"
+                                                       th:title=${page} th:rel=${page}>
+                                                        [[${page} ]]
+                                                    </a>
+                                                </li>
+                                                <li class="page-item disabled" th:if="${currentPage + 2 < totalPages}">
+                                                    <a class="page-link" href="#">...</a>
+                                                </li>
+                                                <li class="page-item font-weight-bold" th:classappend="${currentPage == totalPages} ? 'disabled'">
+                                                    <a class="page-link"
+                                                       th:href="@{'/revision/user?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''} + 'page=' + ${currentPage + 1} + '&size=' + ${pageSize}}"
+                                                       title="Next Page" rel="Next Page">
+                                                        后一页
+                                                    </a>
+                                                </li>
+                                                <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
+                                                    <a class="page-link"
+                                                       th:href="@{'/revision/user?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''} + 'page=' +${totalPages}+ '&size=' + ${pageSize}}"
+                                                       title="Last Page" rel="Last Page">
+                                                        最后页
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </nav>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -113,6 +208,31 @@
         <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
         <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
         <script type="text/javascript" th:src="@{/assets/js/main.js}" ></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $(".btn-delete").on("click", function (e) {
+                    e.preventDefault();
+                    link = $(this);
 
+                    tutorialTitle = link.attr("tutorialTitle");
+                    $("#yesBtn").attr("href", link.attr("href"));
+                    $("#confirmText").html("Do you want to delete the Tutorial \<strong\>" + tutorialTitle + "\<\/strong\>?");
+                    var myModal = new bootstrap.Modal(document.getElementById('confirmModal'), {
+                        keyboard: false
+                    });
+                    myModal.toggle();
+                });
+
+                $("#btnClear").on("click", function (e) {
+                    e.preventDefault();
+                    $("#keyword").text("");
+                    window.location = "[[@{/revision/user}]]";
+                });
+            });
+
+            function changePageSize() {
+                $("#searchForm").submit();
+            }
+        </script>
     </body>
 </html>
