@@ -43,7 +43,7 @@
                                         </div>
                                         <div class="col-sm-6">
                                             <div sec:authorize="hasAnyAuthority('permission_create')">
-                                                <a href="/user/new" class="btn btn-success"><i class="bi bi-person-plus"
+                                                <a href="/user/new" class="btn btn-success"><i class="fas fa-user-plus ml-2"
                                                                                                data-toggle="tooltip"
                                                                                                title="添加用户"></i></a>
                                             </div>
@@ -72,12 +72,12 @@
                                             <td th:text="${user.roles}">Roles</td>
                                             <td>
                                                 <a sec:authorize="hasAuthority('user_edit')" th:href="@{'/user/edit/' + ${user.id}}"
-                                                   class="edit"><i class="bi bi-pencil" data-toggle="tooltip" title="编辑"></i></a>
+                                                   class="edit"><i class="fas fa-user-edit ml-2" data-toggle="tooltip" title="编辑"></i></a>
                                                 <a sec:authorize="hasAuthority('user_edit')"
                                                    th:href="@{'/user/resetpassword/' + ${user.id}}" class="reset"><i
-                                                        class="bi bi-key" data-toggle="tooltip" title="重置密码"></i></a>
+                                                        class="fa-solid fa-user-lock" data-toggle="tooltip" title="重置密码"></i></a>
                                                 <a sec:authorize="hasAuthority('user_delete')"
-                                                   th:href="@{'/user/delete/' + ${user.id}}" class="delete"><i class="bi bi-trash"
+                                                   th:href="@{'/user/delete/' + ${user.id}}" class="delete"><i class="fas fa-user-times ml-2"
                                                                                                             data-toggle="tooltip"
                                                                                                             title="删除"></i></a>
 

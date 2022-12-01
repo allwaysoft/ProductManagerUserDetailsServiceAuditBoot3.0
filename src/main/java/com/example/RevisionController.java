@@ -86,7 +86,7 @@ public class RevisionController {
             System.out.println("!!keyword!=null");
             queryCount = reader.createQuery()
                     .forRevisionsOfEntity(User.class, false, true)
-                    .add(AuditEntity.property("username").like(keyword))
+                    .add(AuditEntity.property("username").like("%" + keyword + "%"))
                     .addProjection(AuditEntity.revisionNumber().count());
             totalItems = (Long) queryCount.getSingleResult();
             System.out.println("!!totalItems=" + totalItems);
@@ -100,7 +100,7 @@ public class RevisionController {
             System.out.println("!!totalPages=" + totalPages);
             query = reader.createQuery()
                     .forRevisionsOfEntity(User.class, false, true)
-                    .add(AuditEntity.property("username").like(keyword))
+                    .add(AuditEntity.property("username").like("%" + keyword + "%"))
                     .setFirstResult((page - 1) * size)
                     .setMaxResults(size)
                     .addOrder(AuditEntity.revisionNumber().desc());

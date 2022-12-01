@@ -7,7 +7,7 @@
         <title>Bootstrap 5 Sign In Form with Image Example</title>
         <link rel="icon" th:href="@{/assets/img/favicon.png}"  />
         <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
-        <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap-icons/font/bootstrap-icons.css}"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/webjars/font-awesome/css/all.min.css}"/>
     </head>
 
     <body>
@@ -30,24 +30,24 @@
                             <div class="p-4">
                                 <div class="input-group mb-3">
                                     <span class="input-group-text bg-secondary"><i
-                                            class="bi bi-person-fill text-white"></i></span>
+                                            class="fa-solid fa-user text-white"></i></span>
                                     <input id="username" type="text" name="username" required class="form-control"
                                            placeholder="用户名">
                                 </div>
                                 <div class="input-group mb-3">
                                     <span class="input-group-text bg-secondary"><i
-                                            class="bi bi-key-fill text-white"></i></span>
+                                            class="fa-solid fa-key text-white"></i></span>
                                     <input id="password" type="password" name="password" required class="form-control"
                                            placeholder="密码">
                                 </div>
                                 <div class="input-group mb-3">
                                     <span class="input-group-text bg-secondary"><i
-                                            class="bi bi-lock-fill text-white"></i></span>
+                                            class="fa-solid fa-closed-captioning text-white"></i></span>
                                     <input type="text" name="kaptcha" class="form-control" placeholder="输入下图中的校验码">
                                 </div>
                                 <div class="input-group mb-3">
                                     <span class="input-group-text bg-secondary"><i
-                                            class="bi bi-image-fill text-white"></i></span>
+                                            class="fa-solid fa-image text-white"></i></span>
                                     <img alt="Click the picture to refresh!" class="pointer" th:src="@{/captcha_image}"
                                          onclick="this.src = '/captcha_image?d=' + new Date() * 1">
                                 </div>
