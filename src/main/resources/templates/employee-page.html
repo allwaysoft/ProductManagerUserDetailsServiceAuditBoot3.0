@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <link rel="icon" th:href="@{/assets/img/favicon.png}"  />
+        <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+        <link rel="stylesheet" type="text/css" th:href="@{/webjars/font-awesome/css/all.min.css}"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap-icons/font/bootstrap-icons.css}"/>
+        <link rel="stylesheet" type="text/css" th:href="@{/assets/css/style.css}" />
+        <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+        <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+        <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+        <script th:inline="javascript">
+            //thymeleaf to javascript variables
+            /*<![CDATA[*/
+            var sortProperty = /*[[${sortProperty}]]*/ null;
+            var sortDesc = /*[[${sortDesc}]]*/ null;
+            var currentPage = /*[[${page.number}]]*/ 0;
+            var pageSize = /*[[${page.size}]]*/ 0;
+            var keyword = /*[[${keyword}]]*/ '';
+            /*]]>*/
+
+            $(document).ready(function () {
+                //show up/down arrows
+                $("table#emp-table thead th").each(function () {
+                    var head = $(this);
+                    if (head.attr('data-sort-prop') == sortProperty) {
+                        head.append(sortDesc ? '&#9662;' : '&#9652;');
+                    }
+                });
+
+                //set click action, reload page on clicking with all query params
+                $("table#emp-table thead th").click(function () {
+                    var headerSortPropName = $(this).attr("data-sort-prop");
+                    if (headerSortPropName == sortProperty) {
+                        window.location.href = window.location.pathname +
+                                '?keyword=' + keyword + '&page=' + currentPage + '&size=' + pageSize + '&sort=' + headerSortPropName + ',' +
+                                (sortDesc ? 'asc' : 'desc');
+                    } else {
+                        window.location.href = window.location.pathname +
+                                '?keyword=' + keyword + '&page=' + currentPage + '&size=' + pageSize + '&sort=' + headerSortPropName + ',asc';
+                    }
+                });
+            });
+        </script>
+        <style>
+            table{
+                width:100%;
+            }
+            table td, table th {
+                border: 1px solid grey;
+            }
+            table th {
+                user-select: none;
+                background: #eee;
+            }
+            table tr th:first-child{
+                width:100px;
+            }
+            table tr th:nth-child(3){
+                width:150px;
+            }
+            table tr th:nth-child(4){
+                width:150px;
+            }
+            .pagination-div{
+                user-select: none;
+            }
+            .pagination-div span{
+                border-radius:3px;
+                border:1px solid #999;
+                padding:5px;
+                margin:10px 0px 0px 10px;
+                display:inline-block
+            }
+            span.selected{
+                background:#ccf;
+            }
+        </style>
+    </head>
+    <body>
+        <h2>Employees</h2>
+        <div class="my-3 ">
+
+            <div class="row d-flex flex-row">
+                <form th:action="@{/employees}" id="searchForm" >
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="col-md-12 mt-2">
+                                <div class="search">
+                                    <i class="fa fa-search"></i>
+                                    <input id="keyword" type="search" name="keyword" th:value="${keyword}" required class="form-control"
+                                           placeholder="Enter keyword">
+                                        <button type="submit" class="btn btn-secondary">搜索</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="col-md-12 input-group mt-2">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text" for="pageSize">每页显示行数:</label>
+                                </div>
+                                <select form="searchForm" name="size" th:value="${pageSize}" onchange="changePageSize()" class="size-select"
+                                        id="pageSize">
+                                    <option th:each="s : ${ {10, 25, 50} }" th:value="${s}" th:text="${s}" th:selected="${s == page.size}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-1">
+                            <div class="col-md-12 mt-2">
+                                <button id="btnClear" class="btn btn-info">重置</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+        <table id="emp-table">
+            <thead>
+                <tr>
+                    <th data-sort-prop="id">Id</th>
+                    <th data-sort-prop="name">Name</th>
+                    <th data-sort-prop="dept">Department</th>
+                    <th data-sort-prop="salary">Salary</th>
+                </tr>
+            </thead>
+            <tr th:each="employee : ${page.content}">
+                <td th:text="${employee.id}"></td>
+                <td th:text="${employee.name}"></td>
+                <td th:text="${employee.dept}"></td>
+                <td th:text="${employee.salary}"></td>
+            </tr>
+        </table>
+
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div th:if="${page.totalPages > 0}">
+                    总计<span th:text="${page.totalElements}">99</span>行，当前显示<span th:text="(${page.number} )*${page.size} +1">1</span> -
+                    <span th:text="(${page.number} )*${page.size} +${page.numberOfElements}">5</span>行&nbsp; &nbsp;总计<span th:text="${page.totalPages}">99</span>页
+                </div>
+            </div>
+            <div class="col-sm-6" th:with="sortParam=${sortProperty+','+(sortDesc?'desc':'asc')}">
+                <nav aria-label="Pagination" th:if="${page.totalPages > 0}">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item" th:classappend="${page.number == 0} ? 'disabled'">
+                            <a class="page-link"
+                               th:href="@{'/employees?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''} + 'page=' +'0'+ '&size=' + ${page.size}+'&sort='+${sortParam}}"
+                               title="First Page" rel="First Page">
+                                最前页
+                            </a>
+                        </li>
+                        <li class="page-item font-weight-bold" th:classappend="${page.number == 0} ? 'disabled'">
+                            <a class="page-link"
+                               th:href="@{'/employees?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''} + 'page=' + ${page.number - 1} + '&size=' + ${page.size}+'&sort='+${sortParam}}"
+                               title="Previous Page" rel="Previous Page">
+                                前一页
+                            </a>
+                        </li>
+                        <li class="page-item disabled" th:if="${page.number - 2 > 0}">
+                            <a class="page-link" href="#">...</a>
+                        </li>
+                        <li
+                            th:each="i : ${#numbers.sequence(page.number > 2 ? page.number - 2 : 0, page.number + 2 < page.totalPages ? page.number + 2 : page.totalPages-1)}"
+                            class="page-item" th:classappend="${i == page.number} ? 'active'">
+                            <a class="page-link"
+                               th:href="@{'/employees?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''} + 'page=' + ${i} + '&size=' + ${page.size}+'&sort='+${sortParam}}"
+                               th:title=${i+1} th:rel=${i+1}>
+                                [[${i+1} ]]
+                            </a>
+                        </li>
+                        <li class="page-item disabled" th:if="${page.number + 2 < page.totalPages}">
+                            <a class="page-link" href="#">...</a>
+                        </li>
+                        <li class="page-item font-weight-bold" th:classappend="${page.number == page.totalPages-1} ? 'disabled'">
+                            <a class="page-link"
+                               th:href="@{'/employees?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''} + 'page=' + ${page.number + 1} + '&size=' + ${page.size}+'&sort='+${sortParam}}"
+                               title="Next Page" rel="Next Page">
+                                后一页
+                            </a>
+                        </li>
+                        <li class="page-item" th:classappend="${page.number == page.totalPages-1} ? 'disabled'">
+                            <a class="page-link"
+                               th:href="@{'/employees?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''} + 'page=' +${page.totalPages-1}+ '&size=' + ${page.size}+'&sort='+${sortParam}}"
+                               title="Last Page" rel="Last Page">
+                                最后页
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+                class="bi bi-arrow-up-short"></i></a>
+        <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+        <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+        <script type="text/javascript" th:src="@{/assets/js/main.js}" ></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $(".btn-delete").on("click", function (e) {
+                    e.preventDefault();
+                    link = $(this);
+
+                    tutorialTitle = link.attr("tutorialTitle");
+                    $("#yesBtn").attr("href", link.attr("href"));
+                    $("#confirmText").html("Do you want to delete the Tutorial \<strong\>" + tutorialTitle + "\<\/strong\>?");
+                    var myModal = new bootstrap.Modal(document.getElementById('confirmModal'), {
+                        keyboard: false
+                    });
+                    myModal.toggle();
+                });
+
+                $("#btnClear").on("click", function (e) {
+                    e.preventDefault();
+                    $("#keyword").text("");
+                    window.location = "[[@{/employees}]]";
+                });
+            });
+
+            function changePageSize() {
+                $("#searchForm").submit();
+            }
+        </script>
+    </body>
+</html>

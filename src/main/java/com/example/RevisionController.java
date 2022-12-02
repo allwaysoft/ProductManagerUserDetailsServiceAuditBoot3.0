@@ -2,8 +2,10 @@ package com.example;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import org.hibernate.envers.AuditReader;
 import org.hibernate.envers.AuditReaderFactory;
 import org.hibernate.envers.RevisionType;
@@ -28,7 +30,7 @@ public class RevisionController {
     @RequestMapping("/revision/user")
 
     public String getAll(Model model, @RequestParam(required = false) String keyword,
-            @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size) {
+                         @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size) {
 
         List<UserRevisionDTO> listUserRevisionDTOs = new ArrayList();
         AuditReader reader = AuditReaderFactory.get(entityManager);
@@ -38,7 +40,8 @@ public class RevisionController {
         Long totalPages;
         AuditQuery queryCount;
         AuditQuery query;
-        if (keyword == null || keyword.isBlank()) {
+        if (keyword == null || keyword.trim().isEmpty()
+        ) {
             System.out.println("!!keyword=null");
             queryCount = reader.createQuery()
                     .forRevisionsOfEntity(User.class, false, true)
