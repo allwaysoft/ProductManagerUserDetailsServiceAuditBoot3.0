@@ -43,19 +43,98 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="my-3 ">
+
+                                    <div class="row d-flex flex-row">
+                                        <form th:action="@{/loginlog}" id="searchForm" >
+                                            <div class="row">
+                                                <div class="col-sm-8">
+                                                    <div class="col-md-12 mt-2">
+                                                        <div class="search">
+                                                            <i class="fa fa-search"></i>
+                                                            <input id="keyword" type="search" name="keyword" th:value="${keyword}" required class="form-control"
+                                                                   placeholder="Enter keyword">
+                                                            <button type="submit" class="btn btn-secondary">搜索</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="col-md-12 input-group mt-2">
+                                                        <div class="input-group-prepend">
+                                                            <label class="input-group-text" for="pageSize">每页显示行数:</label>
+                                                        </div>
+                                                        <select form="searchForm" name="size" th:value="${pageSize}" onchange="changePageSize()" class="size-select"
+                                                                id="pageSize">
+                                                            <option th:each="s : ${ {10, 25, 50} }" th:value="${s}" th:text="${s}" th:selected="${s == page.size}"></option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-1">
+                                                    <div class="col-md-12 mt-2">
+                                                        <button id="btnClear" class="btn btn-info">重置</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                </div>
                                 <table class="table table-striped table-hover">
                                     <thead >
                                         <tr>
-                                            <th>ID</th>
-                                            <th>登录账号</th>
-                                            <th>事件描述</th>
-                                            <th>IP</th>
-                                            <th>会话ID</th>
-                                            <th>时间</th>
+                                            <th scope="col" >
+                                                <a th:href="@{'/loginlog?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''}
+                                                   + 'page=' + ${page.number} + '&size=' + ${page.size}
+                                                   + ${sortProperty!=null ? '&sort=' +  'id'  + ',' + (sortProperty == 'id' ? reverseSortDirection : sortDirection) : ''}}">
+                                                    ID</a>
+                                                <span th:if="${sortProperty ==  'id' }"
+                                                      th:class="${sortDirection == 'asc' ? 'fas fa-arrow-down-short-wide' : 'fas fa-arrow-down-wide-short'}"></span>
+                                            </th>
+                                            <th scope="col" >
+                                                <a th:href="@{'/loginlog?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''}
+                                                   + 'page=' + ${page.number} + '&size=' + ${page.size}
+                                                   + ${sortProperty!=null ? '&sort=' +  'username'  + ',' + (sortProperty == 'username' ? reverseSortDirection : sortDirection) : ''}}">
+                                                    登录账号</a>
+                                                <span th:if="${sortProperty ==  'username' }"
+                                                      th:class="${sortDirection == 'asc' ? 'fas fa-arrow-down-short-wide' : 'fas fa-arrow-down-wide-short'}"></span>
+                                            </th>
+                                            <th scope="col" >
+                                                <a th:href="@{'/loginlog?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''}
+                                                   + 'page=' + ${page.number} + '&size=' + ${page.size}
+                                                   + ${sortProperty!=null ? '&sort=' +  'description'  + ',' + (sortProperty == 'description' ? reverseSortDirection : sortDirection) : ''}}">
+                                                    事件描述</a>
+                                                <span th:if="${sortProperty ==  'description' }"
+                                                      th:class="${sortDirection == 'asc' ? 'fas fa-arrow-down-short-wide' : 'fas fa-arrow-down-wide-short'}"></span>
+                                            </th>
+                                            <th scope="col" >
+                                                <a th:href="@{'/loginlog?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''}
+                                                   + 'page=' + ${page.number} + '&size=' + ${page.size}
+                                                   + ${sortProperty!=null ? '&sort=' +  'ip'  + ',' + (sortProperty == 'ip' ? reverseSortDirection : sortDirection) : ''}}">
+                                                    IP</a>
+                                                <span th:if="${sortProperty ==  'ip' }"
+                                                      th:class="${sortDirection == 'asc' ? 'fas fa-arrow-down-short-wide' : 'fas fa-arrow-down-wide-short'}"></span>
+                                            </th>
+                                            <th scope="col" >
+                                                <a th:href="@{'/loginlog?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''}
+                                                   + 'page=' + ${page.number} + '&size=' + ${page.size}
+                                                   + ${sortProperty!=null ? '&sort=' +  'sessionid'  + ',' + (sortProperty == 'sessionid' ? reverseSortDirection : sortDirection) : ''}}">
+                                                    会话ID</a>
+                                                <span th:if="${sortProperty ==  'sessionid' }"
+                                                      th:class="${sortDirection == 'asc' ? 'fas fa-arrow-down-short-wide' : 'fas fa-arrow-down-wide-short'}"></span>
+                                            </th>
+                                            <th scope="col" >
+                                                <a th:href="@{'/loginlog?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''}
+                                                   + 'page=' + ${page.number} + '&size=' + ${page.size}
+                                                   + ${sortProperty!=null ? '&sort=' +  'eventtime'  + ',' + (sortProperty == 'eventtime' ? reverseSortDirection : sortDirection) : ''}}">
+                                                    时间</a>
+                                                <span th:if="${sortProperty ==  'eventtime' }"
+                                                      th:class="${sortDirection == 'asc' ? 'fas fa-arrow-down-short-wide' : 'fas fa-arrow-down-wide-short'}"></span>
+                                            </th>
+
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr th:each="loginLog : ${listLoginLogs}">
+                                        <tr th:each="loginLog : ${page.content}">
                                             <td th:text="${loginLog.id}">ID</td>
                                             <td th:text="${loginLog.username}">登录账号</td>
                                             <td th:text="${loginLog.description}">事件描述</td>
@@ -70,7 +149,63 @@
                                     </tbody>
                                 </table>
 
-
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div th:if="${page.totalPages > 0}">
+                                            总计<span th:text="${page.totalElements}">99</span>行，当前显示<span th:text="(${page.number} )*${page.size} +1">1</span> -
+                                            <span th:text="(${page.number} )*${page.size} +${page.numberOfElements}">5</span>行&nbsp; &nbsp;总计<span th:text="${page.totalPages}">99</span>页
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6" th:with="sortParam=${sortProperty+','+(sortDesc?'desc':'asc')}">
+                                        <nav aria-label="Pagination" th:if="${page.totalPages > 0}">
+                                            <ul class="pagination justify-content-center">
+                                                <li class="page-item" th:classappend="${page.number == 0} ? 'disabled'">
+                                                    <a class="page-link"
+                                                       th:href="@{'/loginlog?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''} + 'page=' +'0'+ '&size=' + ${page.size}+'&sort='+${sortParam}}"
+                                                       title="First Page" rel="First Page">
+                                                        最前页
+                                                    </a>
+                                                </li>
+                                                <li class="page-item font-weight-bold" th:classappend="${page.number == 0} ? 'disabled'">
+                                                    <a class="page-link"
+                                                       th:href="@{'/loginlog?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''} + 'page=' + ${page.number - 1} + '&size=' + ${page.size}+'&sort='+${sortParam}}"
+                                                       title="Previous Page" rel="Previous Page">
+                                                        前一页
+                                                    </a>
+                                                </li>
+                                                <li class="page-item disabled" th:if="${page.number - 2 > 0}">
+                                                    <a class="page-link" href="#">...</a>
+                                                </li>
+                                                <li
+                                                    th:each="i : ${#numbers.sequence(page.number > 2 ? page.number - 2 : 0, page.number + 2 < page.totalPages ? page.number + 2 : page.totalPages-1)}"
+                                                    class="page-item" th:classappend="${i == page.number} ? 'active'">
+                                                    <a class="page-link"
+                                                       th:href="@{'/loginlog?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''} + 'page=' + ${i} + '&size=' + ${page.size}+'&sort='+${sortParam}}"
+                                                       th:title=${i+1} th:rel=${i+1}>
+                                                        [[${i+1} ]]
+                                                    </a>
+                                                </li>
+                                                <li class="page-item disabled" th:if="${page.number + 2 < page.totalPages}">
+                                                    <a class="page-link" href="#">...</a>
+                                                </li>
+                                                <li class="page-item font-weight-bold" th:classappend="${page.number == page.totalPages-1} ? 'disabled'">
+                                                    <a class="page-link"
+                                                       th:href="@{'/loginlog?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''} + 'page=' + ${page.number + 1} + '&size=' + ${page.size}+'&sort='+${sortParam}}"
+                                                       title="Next Page" rel="Next Page">
+                                                        后一页
+                                                    </a>
+                                                </li>
+                                                <li class="page-item" th:classappend="${page.number == page.totalPages-1} ? 'disabled'">
+                                                    <a class="page-link"
+                                                       th:href="@{'/loginlog?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''} + 'page=' +${page.totalPages-1}+ '&size=' + ${page.size}+'&sort='+${sortParam}}"
+                                                       title="Last Page" rel="Last Page">
+                                                        最后页
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </nav>
+                                    </div>
+                                </div>
 
                             </div>
                         </div>
@@ -86,6 +221,33 @@
         <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
         <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
         <script type="text/javascript" th:src="@{/assets/js/main.js}" ></script>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $(".btn-delete").on("click", function (e) {
+                    e.preventDefault();
+                    link = $(this);
+
+                    tutorialTitle = link.attr("tutorialTitle");
+                    $("#yesBtn").attr("href", link.attr("href"));
+                    $("#confirmText").html("Do you want to delete the Tutorial \<strong\>" + tutorialTitle + "\<\/strong\>?");
+                    var myModal = new bootstrap.Modal(document.getElementById('confirmModal'), {
+                        keyboard: false
+                    });
+                    myModal.toggle();
+                });
+
+                $("#btnClear").on("click", function (e) {
+                    e.preventDefault();
+                    $("#keyword").text("");
+                    window.location = "[[@{/loginlog}]]";
+                });
+            });
+
+            function changePageSize() {
+                $("#searchForm").submit();
+            }
+        </script>
 
     </body>
 </html>
