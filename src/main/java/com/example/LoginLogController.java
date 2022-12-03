@@ -12,7 +12,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class LoginLogController {
@@ -21,7 +20,7 @@ public class LoginLogController {
     private LoginLogRepository loginLogRepository;
 
     @GetMapping("/loginlog")
-    public String getLoginLog(@Param("keyword") String keyword, @PageableDefault(size = 10, sort = "id") Pageable pageable,
+    public String getLoginLog(@Param("keyword") String keyword, @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
             Model model) {
 
         if (keyword == null || keyword.trim().isEmpty()) {
